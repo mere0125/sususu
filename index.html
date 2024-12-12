@@ -3,39 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meal Prep Planner</title>
+    <title>Meal Prep Explorer</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Meal Prep Planner</h1>
+        <h1>Susanna's Meal Prep Explorer</h1>
         
-        <div class="input-section">
-            <div class="input-group">
-                <label for="diet-select">Select Diet Type:</label>
-                <select id="diet-select">
-                    <option value="">Choose a Diet</option>
-                    <option value="vegetarian">Vegetarian</option>
-                    <option value="vegan">Vegan</option>
-                    <option value="keto">Keto</option>
-                    <option value="gluten-free">Gluten-Free</option>
-                </select>
-            </div>
-
-            <div class="input-group">
-                <label for="calories-select">Select Calorie Range:</label>
-                <select id="calories-select">
-                    <option value="">Choose Calorie Range</option>
-                    <option value="300-500">300-500 Calories</option>
-                    <option value="500-700">500-700 Calories</option>
-                    <option value="700-900">700-900 Calories</option>
-                </select>
-            </div>
-
-            <button id="find-meals">Find Meals</button>
+        <div class="filter-section">
+            <button id="all-meals-btn">All Meals</button>
+            <button id="vegetarian-btn">Vegetarian Meals</button>
+            <button id="non-vegetarian-btn">Non-Vegetarian Meals</button>
         </div>
 
-        <div id="meal-results">
+        <div id="meals-container" class="meals-grid">
             <!-- Meals will be dynamically populated here -->
         </div>
     </div>
