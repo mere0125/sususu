@@ -1,46 +1,48 @@
-document.getElementById('find-meals').addEventListener('click', findMeals);
+// API Base URL
+const API_BASE_URL = 'https://meal-prep-app-9fa53b497e7c.herokuapp.com';
 
-async function findMeals() {
-    const dietType = document.getElementById('diet-select').value;
-    const calorieRange = document.getElementById('calories-select').value;
-    const resultsContainer = document.getElementById('meal-results');
+// DOM Elements
+const allMealsBtn = document.getElementById('all-meals-btn');
+const vegetarianBtn = document.getElementById('vegetarian-btn');
+const nonVegetarianBtn = document.getElementById('non-vegetarian-btn');
+const mealsContainer = document.getElementById('meals-container');
 
-    // Clear previous results
-    resultsContainer.innerHTML = '';
-
-    if (!dietType || !calorieRange) {
-        alert('Please select both diet type and calorie range');
-        return;
-    }
-
+// Fetch and display meals
+async function fetchMeals(endpoint) {
     try {
-        const response = await fetch(`https://susu-meal-prep-c3aeda193e35.herokuapp.com/meals?diet=${dietType}&calories=${calorieRange}`);
-        
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-
+        const response = await fetch(`${API_BASE_URL}${endpoint}`);
         const meals = await response.json();
-
-        if (meals.length === 0) {
-            resultsContainer.innerHTML = '<p>No meals found matching your criteria.</p>';
-            return;
-        }
-
-        meals.forEach(meal => {
-            const mealCard = document.createElement('div');
-            mealCard.classList.add('meal-card');
-            mealCard.innerHTML = `
-                <h3>${meal.name}</h3>
-                <p><strong>Diet:</strong> ${meal.diet}</p>
-                <p><strong>Calories:</strong> ${meal.calories}</p>
-                <p><strong>Ingredients:</strong> ${meal.ingredients.join(', ')}</p>
-                <p><strong>Instructions:</strong> ${meal.instructions}</p>
-            `;
-            resultsContainer.appendChild(mealCard);
-        });
+        displayMeals(meals);
     } catch (error) {
-        console.error('Error:', error);
-        resultsContainer.innerHTML = `<p>Error fetching meals: ${error.message}</p>`;
+        console.error('Error fetching meals:', error);
+        mealsContainer.innerHTML = '<p>Error loading meals. Please try again.</p>';
     }
 }
+
+// Create meal card HTML
+function createMealCard(meal) {
+    return `
+        <div class="meal-card">
+            <img src="${meal.imageUrl}" alt="${meal.name}">
+            <h3>${meal.name}</h3>
+            <p>Category: ${meal.category}</p>
+            <p>Preparation Time: ${meal.preparationTime} minutes</p>
+            <p>Difficulty: ${meal.difficulty}</p>
+        </div>
+    `;
+}
+
+// Display meals in the container
+function displayMeals(meals) {
+    mealsContainer.innerHTML = meals.length 
+        ? meals.map(createMealCard).join('')
+        : '<p>No meals found.</p>';
+}
+
+// Event Listeners
+allMealsBtn.addEventListener('click', () => fetchMeals('/meals'));
+vegetarianBtn.addEventListener('click', () => fetchMeals('/meals/vegetarian'));
+nonVegetarianBtn.addEventListener('click', () => fetchMeals('/meals/nonvegetarian'));
+
+// Initial load of all meals
+fetchMeals('/meals');
