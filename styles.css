@@ -1,135 +1,181 @@
-/* Fonts and Colors */
+/* Colors and Fonts */
 :root {
-    --primary-color: #ff7f50;
-    --secondary-color: #f8f1e4;
-    --accent-color: #e9c46a;
-    --text-color: #2a2a2a;
+    --primary-color: #ff6363;
+    --secondary-color: #ffe2e2;
+    --background-gradient: linear-gradient(145deg, #ffdde1, #e2ffe7);
+    --card-shadow: rgba(0, 0, 0, 0.15);
     --font-primary: 'Playfair Display', serif;
     --font-secondary: 'Roboto', sans-serif;
 }
 
-/* General Styling */
-body {
+/* Reset and General Styles */
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
     font-family: var(--font-secondary);
-    color: var(--text-color);
-    background: linear-gradient(135deg, #f8f1e4, #f4d3c3);
+    color: #333;
+    background: var(--background-gradient);
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 100vh;
 }
 
-/* Header Styling */
+/* Header Styles */
 header {
-    background-color: var(--primary-color);
+    background: var(--primary-color);
     color: white;
     text-align: center;
-    padding: 2rem 1rem;
+    padding: 2rem 0;
     width: 100%;
+    box-shadow: 0 4px 6px var(--card-shadow);
 }
 
 header h1 {
     font-family: var(--font-primary);
     font-size: 3rem;
-    margin: 0;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
 }
 
-/* User Input Section */
+/* Input Section */
 #user-input {
-    text-align: center;
     margin: 2rem auto;
+    text-align: center;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 12px var(--card-shadow);
+    width: 90%;
+    max-width: 600px;
+    animation: fadeIn 1s ease-in-out;
 }
 
 #user-input p {
     font-family: var(--font-primary);
     font-size: 1.2rem;
+    color: var(--primary-color);
     margin-bottom: 1rem;
 }
 
 #user-input input {
     padding: 0.8rem;
-    border: 2px solid var(--accent-color);
+    width: 70%;
+    border: 2px solid var(--primary-color);
     border-radius: 8px;
     font-size: 1rem;
-    margin-right: 1rem;
-    width: 300px;
+    margin-bottom: 1rem;
+    outline: none;
+    transition: 0.3s;
+}
+
+#user-input input:focus {
+    border-color: #ff8c8c;
+    box-shadow: 0 0 8px rgba(255, 99, 99, 0.5);
 }
 
 #user-input button {
     padding: 0.8rem 1.2rem;
-    background-color: var(--primary-color);
+    background: var(--primary-color);
     color: white;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     font-size: 1rem;
-    transition: background-color 0.3s ease;
+    transition: background 0.3s, transform 0.2s;
 }
 
 #user-input button:hover {
-    background-color: #e07042;
+    background: #ff4b4b;
+    transform: scale(1.05);
 }
 
 /* Results Section */
 #results {
-    width: 90%;
-    max-width: 800px;
-    margin: 2rem auto;
     text-align: center;
+    margin: 2rem auto;
+    width: 90%;
+    max-width: 1200px;
+    animation: fadeIn 1.2s ease-in-out;
 }
 
 #results h2 {
     font-family: var(--font-primary);
     font-size: 2rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    color: #444;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
 }
 
 #recipe-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
+    gap: 2rem;
     margin-top: 2rem;
 }
 
+/* Recipe Card Styles */
 .recipe {
     background: white;
-    border-radius: 12px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 1rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px var(--card-shadow);
+    padding: 1.5rem;
     text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .recipe:hover {
-    transform: scale(1.05);
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-10px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
 }
 
 .recipe h3 {
     font-family: var(--font-primary);
-    color: var(--primary-color);
     font-size: 1.5rem;
-    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
 }
 
 .recipe ul {
     list-style: none;
     padding: 0;
     font-size: 0.9rem;
+    line-height: 1.5;
+    margin-top: 1rem;
 }
 
 .recipe ul li {
-    margin: 0.5rem 0;
+    color: #555;
 }
 
-/* Footer */
+/* Footer Styles */
 footer {
     margin-top: auto;
     padding: 1rem;
-    text-align: center;
-    background-color: var(--primary-color);
+    background: var(--primary-color);
     color: white;
+    text-align: center;
+    font-size: 0.9rem;
     width: 100%;
-    font-family: var(--font-secondary);
+    box-shadow: 0 -4px 6px var(--card-shadow);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
