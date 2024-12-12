@@ -1,48 +1,49 @@
-// API Base URL
-const API_BASE_URL = 'https://meal-prep-app-9fa53b497e7c.herokuapp.com';
+// Event listener for the search button
+document.getElementById('search-btn').addEventListener('click', () => {
+    const ingredient = document.getElementById('ingredient').value;
+    if (ingredient.trim() !== '') {
+        fetchRecipes(ingredient);
+    } else {
+        alert('Please enter an ingredient!');
+    }
+});
 
-// DOM Elements
-const allMealsBtn = document.getElementById('all-meals-btn');
-const vegetarianBtn = document.getElementById('vegetarian-btn');
-const nonVegetarianBtn = document.getElementById('non-vegetarian-btn');
-const mealsContainer = document.getElementById('meals-container');
-
-// Fetch and display meals
-async function fetchMeals(endpoint) {
+// Fetch recipes from the API
+async function fetchRecipes(ingredient) {
     try {
-        const response = await fetch(`${API_BASE_URL}${endpoint}`);
-        const meals = await response.json();
-        displayMeals(meals);
+        const response = await fetch(`https://your-classmate-api-url.com/recipes?ingredient=${ingredient}`);
+        if (response.ok) {
+            const data = await response.json();
+            displayRecipes(data);
+        } else {
+            alert('Error fetching recipes. Please try again.');
+        }
     } catch (error) {
-        console.error('Error fetching meals:', error);
-        mealsContainer.innerHTML = '<p>Error loading meals. Please try again.</p>';
+        console.error('Error:', error);
+        alert('There was an error connecting to the API.');
     }
 }
 
-// Create meal card HTML
-function createMealCard(meal) {
-    return `
-        <div class="meal-card">
-            <img src="${meal.imageUrl}" alt="${meal.name}">
-            <h3>${meal.name}</h3>
-            <p>Category: ${meal.category}</p>
-            <p>Preparation Time: ${meal.preparationTime} minutes</p>
-            <p>Difficulty: ${meal.difficulty}</p>
-        </div>
-    `;
+// Display recipes dynamically in the results section
+function displayRecipes(recipes) {
+    const recipeList = document.getElementById('recipe-list');
+    recipeList.innerHTML = ''; // Clear previous results
+
+    if (recipes.length === 0) {
+        recipeList.innerHTML = '<p>No recipes found. Try a different ingredient!</p>';
+        return;
+    }
+
+    recipes.forEach(recipe => {
+        const recipeCard = document.createElement('div');
+        recipeCard.classList.add('recipe');
+        recipeCard.innerHTML = `
+            <h3>${recipe.name}</h3>
+            <p>${recipe.description}</p>
+            <ul>
+                ${recipe.ingredients.map(ing => `<li>${ing}</li>`).join('')}
+            </ul>
+        `;
+        recipeList.appendChild(recipeCard);
+    });
 }
-
-// Display meals in the container
-function displayMeals(meals) {
-    mealsContainer.innerHTML = meals.length 
-        ? meals.map(createMealCard).join('')
-        : '<p>No meals found.</p>';
-}
-
-// Event Listeners
-allMealsBtn.addEventListener('click', () => fetchMeals('/meals'));
-vegetarianBtn.addEventListener('click', () => fetchMeals('/meals/vegetarian'));
-nonVegetarianBtn.addEventListener('click', () => fetchMeals('/meals/nonvegetarian'));
-
-// Initial load of all meals
-fetchMeals('/meals');
